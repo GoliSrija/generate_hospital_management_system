@@ -1,24 +1,11 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8">
+<html lang="en"><head><meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Register - generate_hospital_management_system</title>
-<link rel="stylesheet" href="css/style.css">
-</head>
-<body>
-<main>
-<article>
-<h1>Register</h1>
-<form id="registerForm">
-<input name="username" placeholder="Username" required>
-<input name="email" type="email" placeholder="Email" required>
-<input name="password" type="password" placeholder="Password" required minlength="8">
-<button type="submit">Register</button>
-</form>
-<p><a href="index.html">Back to home</a></p>
-</article>
-</main>
-<script src="js/app.js" defer></script>
-</body>
-</html>
+<title>Create your account | Generate Hospital Management System</title><link rel="stylesheet" href="css/style.css"></head>
+<body><main class="auth-card"><article>
+<p><a href="home.html">← Home</a></p><h1>Create your account</h1>
+<p>Continue to your application.</p>
+<form id="registerForm"><label>Full name<input name="username" autocomplete="name" placeholder="Your name" required maxlength="120"></label><label>Email address<input name="email" type="email" autocomplete="email" placeholder="you@example.com" required></label><label>Password<input name="password" type="password" autocomplete="new-password" placeholder="At least 8 characters" minlength="8" required></label><button type="submit">Create account</button></form>
+<p class="auth-links">Already registered? <a href="login.html">Sign in</a></p>
+<p class="notice">Demo-only authentication. Connect this form to your Flask API before production use.</p>
+</article></main><script src="js/app.js" defer></script></body></html>

@@ -4,19 +4,13 @@ from flask_cors import CORS
 app = Flask(__name__)
 CORS(app)
 
-
-@app.route("/")
+@app.route('/')
 def home():
-    return jsonify({
-        "project": "generate_hospital_management_system",
-        "status": "running"
-    })
+    return jsonify({'project': "generate_hospital_management_system", 'status': 'running'})
 
-
-@app.route("/health")
+@app.route('/health')
 def health():
-    return jsonify({"status": "healthy"})
+    return jsonify({'status': 'healthy'})
 
-
-if __name__ == "__main__":
-    app.run(host="127.0.0.1", port=5001, debug=True)
+if __name__ == '__main__':
+    app.run(host='127.0.0.1', port=5001, debug=True)

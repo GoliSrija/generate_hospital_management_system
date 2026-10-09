@@ -1,410 +1,226 @@
-Certainly! Below is a simplified version of JavaScript functionality for a basic hospital management system. This example includes form validation, button events, dynamic content updates, and loading indicators.
+Certainly! Below is a simplified version of JavaScript that includes form validation, button events, dynamic content, and loading indicators for a hospital management system. This example assumes you have an HTML structure to work with.
+
+### HTML Structure (Example)
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hospital Management System</title>
+    <style>
+        .loading {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 9999;
+            text-align: center;
+        }
+        .loading-content {
+            margin-top: 20vh;
+            color: white;
+            font-size: 2em;
+        }
+    </style>
+</head>
+<body>
+    <div id="app">
+        <h1>Hospital Management System</h1>
+        <form id="patientForm">
+            <label for="name">Name:</label>
+            <input type="text" id="name" name="name" required>
+            <br><br>
+            <label for="age">Age:</label>
+            <input type="number" id="age" name="age" required>
+            <br><br>
+            <label for="diagnosis">Diagnosis:</label>
+            <input type="text" id="diagnosis" name="diagnosis" required>
+            <br><br>
+            <button type="submit">Submit</button>
+        </form>
+        <div id="dynamicContent"></div>
+        <div class="loading" id="loadingIndicator">
+            <div class="loading-content">Loading...</div>
+        </div>
+    </div>
+
+    <script src="hospitalManagement.js"></script>
+</body>
+</html>
 
 
-document.addEventListener('DOMContentLoaded', function() {
-    // Form Validation
+### JavaScript (hospitalManagement.js)
+
+document.addEventListener('DOMContentLoaded', () => {
     const form = document.getElementById('patientForm');
-    const nameInput = document.getElementById('name');
-    const ageInput = document.getElementById('age');
-    const emailInput = document.getElementById('email');
+    const dynamicContent = document.getElementById('dynamicContent');
+    const loadingIndicator = document.getElementById('loadingIndicator');
 
-    form.addEventListener('submit', function(event) {
-        event.preventDefault();
-        validateForm();
-    });
-
-    function validateForm() {
-        let isValid = true;
-
-        if (!nameInput.value.trim()) {
-            nameInput.classList.add('invalid');
-            isValid = false;
-        } else {
-            nameInput.classList.remove('invalid');
-        }
-
-        if (!ageInput.value.trim()) {
-            ageInput.classList.add('invalid');
-            isValid = false;
-        } else {
-            ageInput.classList.remove('invalid');
-        }
-
-        if (!emailInput.value.trim()) {
-            emailInput.classList.add('invalid');
-            isValid = false;
-        } else {
-            emailInput.classList.remove('invalid');
-        }
-
-        if (isValid) {
-            addPatient();
-        }
-    }
-
-    // Button Events
-    const addButton = document.getElementById('addButton');
-    const patientList = document.getElementById('patientList');
-
-    addButton.addEventListener('click', function() {
-        if (form.checkValidity()) {
-            addPatient();
-        } else {
-            validateForm();
-        }
-    });
-
-    function addPatient() {
-        const name = nameInput.value.trim();
-        const age = ageInput.value.trim();
-        const email = emailInput.value.trim();
-
-        const patientItem = document.createElement('div');
-        patientItem.classList.add('patient-item');
-
-        const patientName = document.createElement('p');
-        patientName.textContent = `Name: ${name}`;
-        patientItem.appendChild(patientName);
-
-        const patientAge = document.createElement('p');
-        patientAge.textContent = `Age: ${age}`;
-        patientItem.appendChild(patientAge);
-
-        const patientEmail = document.createElement('p');
-        patientEmail.textContent = `Email: ${email}`;
-        patientEmail.classList.add('email');
-        patientItem.appendChild(patientEmail);
-
-        patientList.appendChild(patientItem);
-
-        // Clear form fields
-        nameInput.value = '';
-        ageInput.value = '';
-        emailInput.value = '';
-
-        // Loading Indicator
-        showLoadingIndicator();
-        setTimeout(function() {
-            hideLoadingIndicator();
-        },
+    // Function to show loading indicator
+    function showLoading() {
+        loadingIndicator.style.display =
 
 
 (() => {
-    "use strict";
+  "use strict";
+  const prefix = "ai_generated_demo_";
+  const esc = value => String(value).replace(/[&<>"']/g, c => ({
+    "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"
+  })[c]);
+  const titleCase = value => value.replace(/[-_]+/g," ").replace(/\b\w/g,c=>c.toUpperCase());
 
-    const storagePrefix = "ai_generated_demo_";
-    let activeModule = "";
-    let originalMainDisplay = "";
-
-    function titleCase(value) {
-        return value.replace(/[-_]+/g, " ")
-            .replace(/\b\w/g, char => char.toUpperCase());
-    }
-
-    function getModuleName(anchor) {
-        const label = (anchor.innerText || anchor.textContent || "").trim();
-        const href = anchor.getAttribute("href") || "";
-        if (!label) return "";
-
-        if (/^(home|index|logo)$/i.test(label)) return "";
-        if (/^(logout|sign out)$/i.test(label)) return "logout";
-
-        if (href.startsWith("#") && href.length > 1) {
-            return decodeURIComponent(href.slice(1)).split(/[?&]/)[0];
-        }
-
-        const file = href.split("/").pop().split("?")[0];
-        if (file && /\.html?$/i.test(file)) {
-            return file.replace(/\.html?$/i, "");
-        }
-
-        return label.toLowerCase().replace(/[^a-z0-9]+/g, "_")
-            .replace(/^_|_$/g, "");
-    }
-
-    function getMain() {
-        let main = document.querySelector("main");
-        if (!main) {
-            main = document.createElement("main");
-            main.id = "app-main";
-            const header = document.querySelector("header");
-            if (header && header.parentNode) {
-                header.parentNode.insertBefore(main, header.nextSibling);
-            } else {
-                document.body.insertBefore(main, document.body.firstChild);
-            }
-            while (main.nextSibling &&
-                   main.nextSibling.tagName !== "SCRIPT") {
-                main.appendChild(main.nextSibling);
-            }
-        }
-        return main;
-    }
-
-    function getView() {
-        let view = document.getElementById("dynamic-page-view");
-        if (!view) {
-            view = document.createElement("section");
-            view.id = "dynamic-page-view";
-            view.hidden = true;
-            const main = getMain();
-            main.parentNode.insertBefore(view, main.nextSibling);
-        }
-        return view;
-    }
-
-    function escapeHtml(value) {
-        return String(value).replace(/[&<>"']/g, char => ({
-            "&": "&amp;", "<": "&lt;", ">": "&gt;",
-            '"': "&quot;", "'": "&#39;"
-        })[char]);
-    }
-
-    function readRecords(module) {
-        try {
-            return JSON.parse(
-                localStorage.getItem(storagePrefix + module) || "[]"
-            );
-        } catch (_) {
-            return [];
-        }
-    }
-
-    function saveRecords(module, records) {
-        try {
-            localStorage.setItem(
-                storagePrefix + module, JSON.stringify(records)
-            );
-            return true;
-        } catch (_) {
-            return false;
-        }
-    }
-
-    function renderModule(module) {
-        if (!module || module === "logout") {
-            if (module === "logout") {
-                sessionStorage.removeItem("ai_demo_logged_in");
-                location.hash = "#/";
-            }
-            return;
-        }
-
-        activeModule = module;
-        const main = getMain();
-        const view = getView();
-
-        if (!originalMainDisplay) {
-            originalMainDisplay = main.style.display;
-        }
-        main.style.display = "none";
-        view.hidden = false;
-
-        const title = titleCase(module);
-        const records = readRecords(module);
-
-        view.innerHTML = `
-            <p><a href="#/" data-app-home>← Back to application home</a></p>
-            <h1>${escapeHtml(title)}</h1>
-            <p class="notice">
-                Demo module. Records are stored in this browser.
-            </p>
-            <div class="module-toolbar">
-                <input id="module-search" type="search"
-                       placeholder="Search ${escapeHtml(title)}...">
-                <button type="button" id="show-add-form">+ Add record</button>
-            </div>
-            <form class="module-form" id="module-form" hidden>
-                <h2>Add ${escapeHtml(title.replace(/s$/i, ""))}</h2>
-                <label>
-                    Name
-                    <input name="name" required maxlength="120"
-                           placeholder="Enter name">
-                </label>
-                <label>
-                    Details
-                    <input name="details" maxlength="300"
-                           placeholder="Enter details">
-                </label>
-                <button type="submit">Save record</button>
-                <button type="button" id="cancel-add">Cancel</button>
-            </form>
-            <div id="module-records"></div>
-        `;
-
-        function draw(filter = "") {
-            const container = view.querySelector("#module-records");
-            const filtered = readRecords(module).filter(record =>
-                (record.name + " " + record.details)
-                    .toLowerCase().includes(filter.toLowerCase())
-            );
-
-            if (!filtered.length) {
-                container.innerHTML =
-                    '<p class="notice">No records found. Use Add record to create one.</p>';
-                return;
-            }
-
-            container.innerHTML = `
-                <table>
-                    <thead><tr><th>Name</th><th>Details</th><th>Actions</th></tr></thead>
-                    <tbody>${filtered.map(record => `
-                        <tr>
-                            <td>${escapeHtml(record.name)}</td>
-                            <td>${escapeHtml(record.details || "")}</td>
-                            <td>
-                                <button type="button" data-delete="${escapeHtml(record.id)}">
-                                    Delete
-                                </button>
-                            </td>
-                        </tr>
-                    `).join("")}</tbody>
-                </table>
-            `;
-        }
-
-        draw();
-
-        view.querySelector("#module-search").addEventListener("input", event => {
-            draw(event.target.value);
-        });
-
-        view.querySelector("#show-add-form").addEventListener("click", () => {
-            view.querySelector("#module-form").hidden = false;
-            view.querySelector('#module-form input[name="name"]').focus();
-        });
-
-        view.querySelector("#cancel-add").addEventListener("click", () => {
-            view.querySelector("#module-form").hidden = true;
-        });
-
-        view.querySelector("#module-form").addEventListener("submit", event => {
-            event.preventDefault();
-            const form = event.currentTarget;
-            const data = new FormData(form);
-            const current = readRecords(module);
-            current.push({
-                id: String(Date.now()) + Math.random().toString(16).slice(2),
-                name: String(data.get("name") || "").trim(),
-                details: String(data.get("details") || "").trim()
-            });
-
-            if (!saveRecords(module, current)) {
-                alert("Unable to save. Browser storage may be unavailable.");
-                return;
-            }
-
-            form.reset();
-            form.hidden = true;
-            draw(view.querySelector("#module-search").value);
-        });
-
-        view.addEventListener("click", event => {
-            const button = event.target.closest("[data-delete]");
-            if (!button) return;
-
-            if (!confirm("Delete this demo record?")) return;
-
-            const updated = readRecords(module).filter(
-                record => record.id !== button.dataset.delete
-            );
-            saveRecords(module, updated);
-            draw(view.querySelector("#module-search").value);
-        });
-
-        // Mark the selected navigation item.
-        document.querySelectorAll("nav a, aside a, .sidebar a").forEach(link => {
-            const linkModule = getModuleName(link);
-            link.classList.toggle("active", linkModule === module);
-            if (linkModule === module) {
-                link.setAttribute("aria-current", "page");
-            } else {
-                link.removeAttribute("aria-current");
-            }
-        });
-    }
-
-    function goHome() {
-        const main = getMain();
-        const view = getView();
-        view.hidden = true;
-        main.style.display = originalMainDisplay;
-        activeModule = "";
-    }
-
-    document.addEventListener("click", event => {
-        const anchor = event.target.closest("a[href]");
-        if (!anchor || event.defaultPrevented ||
-            event.button !== 0 || event.metaKey || event.ctrlKey ||
-            event.shiftKey || event.altKey || anchor.target === "_blank") {
-            return;
-        }
-
-        if (anchor.hasAttribute("data-app-home")) {
-            event.preventDefault();
-            history.pushState(null, "", "#/");
-            goHome();
-            return;
-        }
-
-        const href = anchor.getAttribute("href") || "";
-        if (/^(mailto:|tel:|https?:|javascript:)/i.test(href)) return;
-
-        const module = getModuleName(anchor);
-        if (!module) {
-            if (href.startsWith("#") && href.length > 1) {
-                const section = document.getElementById(href.slice(1));
-                if (section) return;
-            }
-            if (href === "#" || href === "index.html" ||
-                href === "./" || href === "/") {
-                event.preventDefault();
-                history.pushState(null, "", "#/");
-                goHome();
-            }
-            return;
-        }
-
-        // Keep real login and registration forms accessible.
-        if (["login", "register", "registration"].includes(module)) {
-            const target = href.split("/").pop();
-            if (target && /\.html?$/i.test(target)) return;
-        }
-
-        event.preventDefault();
-        const route = "#/" + encodeURIComponent(module);
-        if (location.hash !== route) history.pushState(null, "", route);
-        renderModule(module);
+  function removeDuplicateMenus() {
+    const seen = new Set();
+    document.querySelectorAll("nav ul, header ul, aside ul, .sidebar ul, .nav-links").forEach(list => {
+      const links = [...list.querySelectorAll("a")];
+      if (links.length < 3) return;
+      const signature = links.map(a => (a.textContent||"").trim().toLowerCase()+"|"+(a.getAttribute("href")||"").trim()).join("::");
+      if (seen.has(signature)) {
+        const wrapper = list.closest("nav, aside, .sidebar");
+        if (wrapper && wrapper !== document.querySelector("nav")) wrapper.remove();
+        else list.remove();
+      } else seen.add(signature);
     });
+  }
 
-    function routeFromLocation() {
-        const route = decodeURIComponent(location.hash.replace(/^#\/?/, ""));
-        if (route) renderModule(route);
-        else goHome();
+  function mainElement() {
+    let main = document.querySelector("main");
+    if (!main) {
+      main = document.createElement("main");
+      document.body.appendChild(main);
     }
+    return main;
+  }
 
-    window.addEventListener("popstate", routeFromLocation);
-    window.addEventListener("hashchange", routeFromLocation);
+  function getView() {
+    let view = document.getElementById("dynamic-page-view");
+    if (!view) {
+      view = document.createElement("section");
+      view.id = "dynamic-page-view";
+      view.hidden = true;
+      mainElement().after(view);
+    }
+    return view;
+  }
 
-    document.addEventListener("DOMContentLoaded", () => {
-        routeFromLocation();
+  function recordsFor(module) {
+    try {
+      const value = JSON.parse(localStorage.getItem(prefix + module) || "[]");
+      return Array.isArray(value) ? value : [];
+    } catch (_) { return []; }
+  }
 
-        const login = document.getElementById("loginForm");
-        if (login) {
-            login.addEventListener("submit", event => {
-                event.preventDefault();
-                sessionStorage.setItem("ai_demo_logged_in", "true");
-                location.href = "dashboard.html";
-            });
-        }
-
-        const register = document.getElementById("registerForm");
-        if (register) {
-            register.addEventListener("submit", event => {
-                event.preventDefault();
-                alert("Demo registration submitted.");
-                location.href = "login.html";
-            });
-        }
+  function renderModule(module) {
+    if (!module) return;
+    if (module === "logout") {
+      sessionStorage.removeItem("ai_demo_logged_in");
+      location.href = "login.html";
+      return;
+    }
+    const main = mainElement(), view = getView();
+    main.hidden = true;
+    view.hidden = false;
+    const title = titleCase(module);
+    view.innerHTML = `
+      <p><a href="dashboard.html" data-app-home>← Back to dashboard</a></p>
+      <h1>${esc(title)}</h1>
+      <p class="notice">Demo records are saved in this browser only, not in a server database.</p>
+      <div class="module-toolbar">
+        <input id="module-search" type="search" placeholder="Search ${esc(title)}">
+        <button type="button" id="show-add">+ Add record</button>
+      </div>
+      <form id="module-form" class="module-form" hidden>
+        <label>Name<input name="name" required maxlength="120" placeholder="Enter name"></label>
+        <label>Details<input name="details" maxlength="300" placeholder="Enter details"></label>
+        <button type="submit">Save record</button>
+        <button type="button" id="cancel-add">Cancel</button>
+      </form>
+      <div id="module-records"></div>`;
+    const container = view.querySelector("#module-records");
+    const draw = (filter="") => {
+      const rows = recordsFor(module).filter(r => (r.name+" "+(r.details||"")).toLowerCase().includes(filter.toLowerCase()));
+      container.innerHTML = rows.length ? `<table><thead><tr><th>Name</th><th>Details</th><th>Action</th></tr></thead><tbody>${
+        rows.map(r=>`<tr><td>${esc(r.name)}</td><td>${esc(r.details||"")}</td><td><button type="button" data-delete="${esc(r.id)}">Delete</button></td></tr>`).join("")
+      }</tbody></table>` : '<p class="notice">No records yet. Select Add record to create one.</p>';
+    };
+    draw();
+    view.querySelector("#module-search").addEventListener("input",e=>draw(e.target.value));
+    view.querySelector("#show-add").addEventListener("click",()=>{view.querySelector("#module-form").hidden=false;});
+    view.querySelector("#cancel-add").addEventListener("click",()=>{view.querySelector("#module-form").hidden=true;});
+    view.querySelector("#module-form").addEventListener("submit",e=>{
+      e.preventDefault();
+      const data=new FormData(e.currentTarget), rows=recordsFor(module);
+      rows.push({id:String(Date.now())+Math.random().toString(16).slice(2),name:String(data.get("name")||"").trim(),details:String(data.get("details")||"").trim()});
+      try { localStorage.setItem(prefix+module,JSON.stringify(rows)); }
+      catch (_) { alert("Browser storage is unavailable."); return; }
+      e.currentTarget.reset();e.currentTarget.hidden=true;draw(view.querySelector("#module-search").value);
     });
+    view.addEventListener("click",e=>{
+      const button=e.target.closest("[data-delete]");
+      if(!button||!confirm("Delete this demo record?"))return;
+      const rows=recordsFor(module).filter(r=>r.id!==button.dataset.delete);
+      localStorage.setItem(prefix+module,JSON.stringify(rows));
+      draw(view.querySelector("#module-search").value);
+    });
+  }
+
+  document.addEventListener("click", event => {
+    const a = event.target.closest("a[href]");
+    if (!a || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey || a.target === "_blank") return;
+    if (a.hasAttribute("data-app-home")) { event.preventDefault(); location.href="dashboard.html"; return; }
+    const href = a.getAttribute("href") || "";
+    if (/^(mailto:|tel:|https?:|javascript:)/i.test(href)) return;
+    if (["login.html","register.html"].includes(href)) return;
+    let module = "";
+    if (href.startsWith("#/")) module = decodeURIComponent(href.slice(2));
+    else if (/\.html?$/i.test(href)) module = href.split("/").pop().replace(/\.html?$/i,"");
+    else if (href.startsWith("#") && href.length>1) module=href.slice(1);
+    else if (href==="#" || href==="./" || href==="/" || href==="index.html") return;
+    else module=(a.textContent||"").trim().toLowerCase().replace(/[^a-z0-9]+/g,"_").replace(/^_|_$/g,"");
+    if (!module || ["dashboard","index","home"].includes(module)) return;
+    event.preventDefault();
+    history.pushState(null,"","#/"+encodeURIComponent(module));
+    renderModule(module);
+  });
+
+  window.addEventListener("popstate",()=>{
+    const route=decodeURIComponent(location.hash.replace(/^#\/?/,""));
+    if(route)renderModule(route);
+    else {getView().hidden=true;mainElement().hidden=false;}
+  });
+
+  document.addEventListener("DOMContentLoaded",()=>{
+    removeDuplicateMenus();
+    const login=document.getElementById("loginForm");
+    if(login)login.addEventListener("submit",e=>{
+      e.preventDefault();
+      const email=login.querySelector('[name="email"]')?.value.trim();
+      const password=login.querySelector('[name="password"]')?.value;
+      let user=null;try{user=JSON.parse(localStorage.getItem("demoUser")||"null");}catch(_){}
+      if(user&&user.email===email&&user.password===password){
+        sessionStorage.setItem("ai_demo_logged_in","true");location.href="dashboard.html";
+      } else alert("Invalid demo credentials. Please register first.");
+    });
+    const register=document.getElementById("registerForm");
+    if(register)register.addEventListener("submit",e=>{
+      e.preventDefault();
+      const username=register.querySelector('[name="username"]')?.value.trim();
+      const email=register.querySelector('[name="email"]')?.value.trim();
+      const password=register.querySelector('[name="password"]')?.value;
+      if(!username||!email||!password){alert("Please complete every field.");return;}
+      if(password.length<8){alert("Password must be at least 8 characters.");return;}
+      localStorage.setItem("demoUser",JSON.stringify({username,email,password}));
+      alert("Demo registration complete. Please sign in.");
+      location.href="login.html";
+    });
+    document.querySelectorAll("[data-logout]").forEach(button=>button.addEventListener("click",()=>{
+      sessionStorage.removeItem("ai_demo_logged_in");location.href="login.html";
+    }));
+    const route=decodeURIComponent(location.hash.replace(/^#\/?/,""));
+    if(route)renderModule(route);
+  });
 })();

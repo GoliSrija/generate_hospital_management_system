@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hospital Management System</title>
+    
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <div id="app">
+        <nav class="navbar">
+            <div class="logo">Hospital MS</div>
+            <ul class="nav-links">
+                <li><a href="#/dashboard" class="nav-link">Dashboard</a></li>
+                <li><a href="#/patients" class="nav-link">Patients</a></li>
+                <li><a href="#/appointments" class="nav-link">Appointments</a></li>
+                <li><a href="#/records" class="nav-link">Medical Records</a></li>
+                <li><a href="#/billing" class="nav-link">Billing</a></li>
+                <li><a href="#/logout" class="nav-link">Logout</a></li>
+            </ul>
+        </nav>
+        <div class="main-content">
+            <div class="sidebar">
+                <ul>
+                    <li><a href="#/dashboard">Dashboard</a></li>
+                    <li><a href="#/patients">Patients</a></li>
+                    <li><a href="#/appointments">Appointments</a></li>
+                    <li><a href="#/records">Medical Records</a></li>
+                    <li><a href="#/billing">Billing</a></li>
+                </ul>
+            </div>
+            <div class="content">
+                <router-view></router-view>
+            </div>
+        </div>
+    </div>
+    
+<script src="js/app.js" defer></script>
+</body>
+</html>
