@@ -1,277 +1,167 @@
-Certainly! Below is a simplified version of JavaScript code for a basic hospital management system. This example includes form validation, button events, dynamic content updates, and loading indicators using `fetch` for asynchronous data handling.
+Certainly! Below is a simplified version of JavaScript that can be used for a basic hospital management system. This example includes form validation, button events, dynamic content updates, and loading indicators.
 
 
-// Form Validation
-const form = document.getElementById('patientForm');
-const nameInput = document.getElementById('name');
-const ageInput = document.getElementById('age');
-const genderSelect = document.getElementById('gender');
-const symptomsTextarea = document.getElementById('symptoms');
+document.addEventListener('DOMContentLoaded', function() {
+    const form = document.getElementById('patientForm');
+    const patientNameInput = document.getElementById('patientName');
+    const patientAgeInput = document.getElementById('patientAge');
+    const patientEmailInput = document.getElementById('patientEmail');
+    const patientNotesArea = document.getElementById('patientNotes');
+    const submitButton = document.getElementById('submitButton');
+    const resultDiv = document.getElementById('result');
 
-form.addEventListener('submit', (event) => {
-    event.preventDefault();
-    
-    // Basic form validation
-    const name = nameInput.value.trim();
-    const age = ageInput.value.trim();
-    const gender = genderSelect.value;
-    const symptoms = symptomsTextarea.value.trim();
+    // Function to validate the form
+    function validateForm() {
+        let isValid = true;
 
-    if (!name || !age || !gender || !symptoms) {
-        alert('All fields are required.');
-        return;
+        if (!patientNameInput.value.trim()) {
+            alert('Patient Name is required!');
+            isValid = false;
+        }
+
+        if (!patientAgeInput.value.trim()) {
+            alert('Patient Age is required!');
+            isValid = false;
+        } else if (isNaN(patientAgeInput.value)) {
+            alert('Patient Age must be a number!');
+            isValid = false;
+        } else if (parseInt(patientAgeInput.value) < 0 || parseInt(patientAgeInput.value) > 120) {
+            alert('Invalid Age! Please enter an age between 0 and 120.');
+            isValid = false;
+        }
+
+        if (!patientEmailInput.value.trim()) {
+            alert('Patient Email is required!');
+            isValid = false;
+        } else if (!isValidEmail(patientEmailInput.value)) {
+            alert('Invalid Email format!');
+            isValid = false;
+        }
+
+        return isValid;
     }
 
-    if (isNaN(age) || age < 0) {
-        alert('Age must be a positive number.');
-        return;
+    // Function to check email format
+    function isValidEmail(email) {
+        const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        return re.test(String(email).toLowerCase());
     }
 
-    // Proceed with the form submission
-    submitPatientData(name, age, gender, symptoms);
-});
+    // Event listener for the submit button
+    submitButton.addEventListener('click', function(e) {
+        e.preventDefault();
 
-// Function to handle patient data submission
-function submitPatientData(name, age, gender, symptoms) {
-    const loadingIndicator = document.getElementById('loadingIndicator');
-    loadingIndicator.style.display = 'block';
+        if (validateForm()) {
+            const patientData = {
+                name: patientNameInput.value,
+                age: patientAgeInput.value,
+                email: patientEmailInput.value,
+                notes: patientNotesArea.value
+            };
 
-    fetch('/submit-patient-data', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-            name: name,
-            age: age,
-            gender: gender,
-            symptoms: symptoms
-        })
-    })
-    .then(response => response.json())
-    .then(data => {
-        console.log('Success:', data);
-        displayMessage('Patient data submitted successfully.');
-    })
-    .catch((error) => {
-        console.error('Error:', error);
-        displayMessage('Failed to submit patient data. Please try again.');
-    })
-    .finally(() => {
-        loadingIndicator.style.display = 'none';
+            showLoadingIndicator();
+            setTimeout(() => {
+                hideLoadingIndicator();
+                displayResult(patientData);
+            }, 2000); // Simulate server processing time
+        }
     });
-}
 
-// Display message in the UI
-function displayMessage(message) {
-    const messageDiv = document.getElementById('message');
-    messageDiv.textContent = message;
-}
-
-// Dynamic Content - Example: Displaying patient list
-function fetchPatientList() {
-    const loadingIndicator = document.getElementById('loadingIndicator');
-    loadingIndicator.style.display = 'block';
-
-    fetch('/get-patient-list')
-    .then(response => response.json())
-    .then
-
+    // Function to display the result
+    function display
 
 (() => {
-  "use strict";
-  const prefix = "ai_generated_demo_";
-  const esc = value => String(value ?? "").replace(/[&<>"']/g, c => ({
-    "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"
-  })[c]);
-  const titleCase = value => value.replace(/[-_]+/g," ").replace(/\b\w/g,c=>c.toUpperCase());
-
-  function mainElement() {
-    let main = document.querySelector("main");
-    if (!main) {
-      main = document.createElement("main");
-      document.body.appendChild(main);
-    }
-    return main;
-  }
-
-  function getView() {
-    let view = document.getElementById("dynamic-page-view");
-    if (!view) {
-      view = document.createElement("section");
-      view.id = "dynamic-page-view";
-      view.hidden = true;
-      mainElement().after(view);
-    }
-    return view;
-  }
-
-  function recordsFor(module) {
+"use strict";
+const apiBase = String((window.APP_CONFIG || {}).API_BASE_URL || "").replace(/\/+$/, "");
+async function api(path, options = {}) {
+  if (!apiBase) throw new Error("Set API_BASE_URL in js/config.js.");
+  const response = await fetch(apiBase + path, {
+    credentials: "include", ...options,
+    headers: {"Content-Type":"application/json", ...(options.headers || {})}
+  });
+  const data = await response.json().catch(() => ({}));
+  if (!response.ok) throw new Error(data.message || "Request failed.");
+  return data;
+}
+function message(form, text, error = false) {
+  let node = form.querySelector(".status-message");
+  if (!node) { node = document.createElement("p"); node.className = "status-message"; node.setAttribute("role","status"); form.prepend(node); }
+  node.textContent = text; node.classList.toggle("status-error", error);
+}
+const esc = v => String(v ?? "").replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const titleCase = s => s.replace(/[-_]+/g," ").replace(/\b\w/g,c=>c.toUpperCase());
+document.addEventListener("DOMContentLoaded", async () => {
+  const login = document.getElementById("loginForm");
+  if (login) login.addEventListener("submit", async e => {
+    e.preventDefault(); const btn = login.querySelector('button[type="submit"]'); btn.disabled = true;
     try {
-      const value = JSON.parse(localStorage.getItem(prefix + module) || "[]");
-      return Array.isArray(value) ? value : [];
-    } catch (_) {
-      return [];
-    }
-  }
-
-  function renderModule(module) {
-    if (!module) return;
-    if (module === "logout") {
-      sessionStorage.removeItem("ai_demo_logged_in");
-      location.href = "login.html";
-      return;
-    }
-    const main = mainElement();
-    const view = getView();
-    main.hidden = true;
-    view.hidden = false;
-    const title = titleCase(module);
-
-    view.innerHTML = `
-      <p><a href="dashboard.html" data-app-home>← Back to dashboard</a></p>
-      <h1>${esc(title)}</h1>
-      <p class="notice">Demo records are stored in this browser only, not in a server database.</p>
-      <div class="module-toolbar">
-        <input id="module-search" type="search" placeholder="Search ${esc(title)}" aria-label="Search ${esc(title)}">
-        <button type="button" id="show-add">+ Add record</button>
-      </div>
-      <form id="module-form" class="module-form" hidden>
-        <label>Name<input name="name" required maxlength="120" placeholder="Enter name"></label>
-        <label>Details<input name="details" maxlength="300" placeholder="Enter details"></label>
-        <button type="submit">Save record</button>
-        <button type="button" id="cancel-add">Cancel</button>
-      </form>
-      <div id="module-records"></div>`;
-
-    const container = view.querySelector("#module-records");
-    const draw = (filter = "") => {
-      const rows = recordsFor(module).filter(row =>
-        (String(row.name || "") + " " + String(row.details || "")).toLowerCase().includes(filter.toLowerCase())
-      );
-      container.innerHTML = rows.length ? `
-        <table><thead><tr><th>Name</th><th>Details</th><th>Action</th></tr></thead>
-        <tbody>${rows.map(row => `
-          <tr><td>${esc(row.name)}</td><td>${esc(row.details || "")}</td>
-          <td><button type="button" data-delete="${esc(row.id)}">Delete</button></td></tr>
-        `).join("")}</tbody></table>
-      ` : '<p class="notice">No records yet. Select Add record to create one.</p>';
-    };
-
-    draw();
-    view.querySelector("#module-search").addEventListener("input", event => draw(event.target.value));
-    view.querySelector("#show-add").addEventListener("click", () => {
-      view.querySelector("#module-form").hidden = false;
-    });
-    view.querySelector("#cancel-add").addEventListener("click", () => {
-      view.querySelector("#module-form").hidden = true;
-    });
-    view.querySelector("#module-form").addEventListener("submit", event => {
-      event.preventDefault();
-      const data = new FormData(event.currentTarget);
-      const rows = recordsFor(module);
-      rows.push({
-        id: String(Date.now()) + Math.random().toString(16).slice(2),
-        name: String(data.get("name") || "").trim(),
-        details: String(data.get("details") || "").trim()
-      });
-      try {
-        localStorage.setItem(prefix + module, JSON.stringify(rows));
-      } catch (_) {
-        alert("Browser storage is unavailable.");
-        return;
-      }
-      event.currentTarget.reset();
-      event.currentTarget.hidden = true;
-      draw(view.querySelector("#module-search").value);
-    });
-    view.addEventListener("click", event => {
-      const button = event.target.closest("[data-delete]");
-      if (!button || !confirm("Delete this demo record?")) return;
-      const rows = recordsFor(module).filter(row => row.id !== button.dataset.delete);
-      localStorage.setItem(prefix + module, JSON.stringify(rows));
-      draw(view.querySelector("#module-search").value);
-    });
-  }
-
-  document.addEventListener("click", event => {
-    const link = event.target.closest("a[href]");
-    if (!link || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey || link.target === "_blank") return;
-    if (link.hasAttribute("data-app-home")) {
-      event.preventDefault();
+      const email = login.querySelector('[name="email"]').value.trim();
+      const password = login.querySelector('[name="password"]').value;
+      await api("/api/auth/login",{method:"POST",body:JSON.stringify({email,password})});
       location.href = "dashboard.html";
-      return;
-    }
-
-    const href = link.getAttribute("href") || "";
-    if (/^(mailto:|tel:|https?:|javascript:)/i.test(href)) return;
-    if (["login.html", "register.html"].includes(href)) return;
-
-    let module = "";
-    if (href.startsWith("#/")) module = decodeURIComponent(href.slice(2));
-    else if (/\.html?$/i.test(href)) module = href.split("/").pop().replace(/\.html?$/i, "");
-    else if (href.startsWith("#") && href.length > 1) module = href.slice(1);
-    else if (href === "#" || href === "./" || href === "/" || href === "index.html") return;
-    else module = (link.textContent || "").trim().toLowerCase().replace(/[^a-z0-9]+/g, "_").replace(/^_|_$/g, "");
-
-    if (!module || ["dashboard", "index", "home"].includes(module)) return;
-    event.preventDefault();
-    history.pushState(null, "", "#/" + encodeURIComponent(module));
-    renderModule(module);
+    } catch(err) { message(login,err.message || "Login failed.",true); } finally { btn.disabled = false; }
   });
-
-  window.addEventListener("popstate", () => {
-    const route = decodeURIComponent(location.hash.replace(/^#\/?/, ""));
-    if (route) renderModule(route);
-    else {
-      getView().hidden = true;
-      mainElement().hidden = false;
-    }
+  const register = document.getElementById("registerForm");
+  if (register) register.addEventListener("submit", async e => {
+    e.preventDefault(); const btn = register.querySelector('button[type="submit"]'); btn.disabled = true;
+    try {
+      const username = register.querySelector('[name="username"]').value.trim();
+      const email = register.querySelector('[name="email"]').value.trim();
+      const password = register.querySelector('[name="password"]').value;
+      if (password.length < 8) throw new Error("Use at least 8 characters for the password.");
+      await api("/api/auth/register",{method:"POST",body:JSON.stringify({username,email,password})});
+      message(register,"Account created. Redirecting to sign in…"); setTimeout(()=>location.href="login.html",700);
+    } catch(err) { message(register,err.message || "Registration failed.",true); } finally { btn.disabled = false; }
   });
-
-  document.addEventListener("DOMContentLoaded", () => {
-    const login = document.getElementById("loginForm");
-    if (login) login.addEventListener("submit", event => {
-      event.preventDefault();
-      const email = login.querySelector('[name="email"]')?.value.trim();
-      const password = login.querySelector('[name="password"]')?.value;
-      let user = null;
-      try { user = JSON.parse(localStorage.getItem("demoUser") || "null"); } catch (_) {}
-      if (user && user.email === email && user.password === password) {
-        sessionStorage.setItem("ai_demo_logged_in", "true");
-        location.href = "dashboard.html";
-      } else {
-        alert("Invalid demo credentials. Please register first.");
-      }
-    });
-
-    const register = document.getElementById("registerForm");
-    if (register) register.addEventListener("submit", event => {
-      event.preventDefault();
-      const username = register.querySelector('[name="username"]')?.value.trim();
-      const email = register.querySelector('[name="email"]')?.value.trim();
-      const password = register.querySelector('[name="password"]')?.value;
-      if (!username || !email || !password) {
-        alert("Please complete every field.");
-        return;
-      }
-      if (password.length < 8) {
-        alert("Password must be at least 8 characters.");
-        return;
-      }
-      localStorage.setItem("demoUser", JSON.stringify({ username, email, password }));
-      alert("Demo registration complete. Please sign in.");
-      location.href = "login.html";
-    });
-
-    document.querySelectorAll("[data-logout]").forEach(button => {
-      button.addEventListener("click", () => {
-        sessionStorage.removeItem("ai_demo_logged_in");
-        location.href = "login.html";
-      });
-    });
-
-    const route = decodeURIComponent(location.hash.replace(/^#\/?/, ""));
-    if (route) renderModule(route);
+  const logout = document.querySelector("[data-logout]");
+  if (logout) logout.addEventListener("click", async () => {
+    try { await api("/api/auth/logout",{method:"POST",body:"{}"}); } catch(e) { console.warn(e.message); }
+    location.href = "login.html";
   });
+  if (document.body.classList.contains("app-dashboard")) {
+    try {
+      const data = await api("/api/auth/me");
+      const label = document.getElementById("dashboard-user");
+      if (label) label.textContent = data.user.username;
+    } catch (_) { location.replace("login.html"); return; }
+  }
+  const search = document.getElementById("module-search");
+  if (search && document.getElementById("dashboard-modules")) search.addEventListener("input",()=>{
+    document.querySelectorAll("#dashboard-modules .module-card").forEach(card=>card.hidden=!card.textContent.toLowerCase().includes(search.value.toLowerCase()));
+  });
+  installNavigation();
+});
+function installNavigation() {
+  const main = () => document.querySelector("main") || document.body;
+  function view() { let v=document.getElementById("dynamic-page-view"); if(!v){v=document.createElement("section");v.id="dynamic-page-view";v.hidden=true;main().after(v);} return v; }
+  function getRows(module) { try { const v=JSON.parse(localStorage.getItem("ai_generated_demo_"+module)||"[]"); return Array.isArray(v)?v:[]; } catch(_) { return []; } }
+  function render(module) {
+    if(!module)return; const m=main(),v=view();m.hidden=true;v.hidden=false;const title=titleCase(module);
+    v.innerHTML=`<p><a href="dashboard.html" data-app-home>← Back to dashboard</a></p><h1>${esc(title)}</h1>
+    <p class="notice">Demo records are saved in this browser only. Connect module APIs for server-side persistence.</p>
+    <div class="module-toolbar"><input id="record-search" type="search" placeholder="Search ${esc(title)}"><button id="add-record" type="button">+ Add record</button></div>
+    <form id="record-form" hidden><label>Name<input name="name" maxlength="120" required></label><label>Details<input name="details" maxlength="300"></label><button type="submit">Save record</button><button type="button" id="cancel-record">Cancel</button></form><div id="record-list"></div>`;
+    const list=v.querySelector("#record-list"),search=v.querySelector("#record-search");
+    const draw=()=>{const rows=getRows(module).filter(r=>(r.name+" "+(r.details||"")).toLowerCase().includes(search.value.toLowerCase()));
+      list.innerHTML=rows.length?`<table><thead><tr><th>Name</th><th>Details</th><th>Action</th></tr></thead><tbody>${rows.map(r=>`<tr><td>${esc(r.name)}</td><td>${esc(r.details||"")}</td><td><button type="button" data-delete="${esc(r.id)}">Delete</button></td></tr>`).join("")}</tbody></table>`:"<p class='notice'>No records yet.</p>";};
+    draw();search.addEventListener("input",draw);
+    v.querySelector("#add-record").onclick=()=>v.querySelector("#record-form").hidden=false;
+    v.querySelector("#cancel-record").onclick=()=>v.querySelector("#record-form").hidden=true;
+    v.querySelector("#record-form").addEventListener("submit",e=>{e.preventDefault();const d=new FormData(e.currentTarget),rows=getRows(module);
+      rows.push({id:String(Date.now())+Math.random().toString(16).slice(2),name:String(d.get("name")||"").trim(),details:String(d.get("details")||"").trim()});
+      try{localStorage.setItem("ai_generated_demo_"+module,JSON.stringify(rows));}catch(_){alert("Browser storage is unavailable.");return;}
+      e.currentTarget.reset();e.currentTarget.hidden=true;draw();});
+    v.addEventListener("click",e=>{const b=e.target.closest("[data-delete]");if(!b||!confirm("Delete this demo record?"))return;
+      localStorage.setItem("ai_generated_demo_"+module,JSON.stringify(getRows(module).filter(r=>r.id!==b.dataset.delete)));draw();});
+  }
+  document.addEventListener("click",e=>{
+    const a=e.target.closest("a[href]");if(!a||e.metaKey||e.ctrlKey||e.shiftKey||e.altKey||a.target==="_blank")return;
+    if(a.hasAttribute("data-app-home")){e.preventDefault();location.href="dashboard.html";return;}
+    const href=a.getAttribute("href")||"";if(/^(mailto:|tel:|https?:|javascript:)/i.test(href)||["login.html","register.html"].includes(href))return;
+    let mod="";if(href.startsWith("#/"))mod=decodeURIComponent(href.slice(2));else if(/\.html?$/i.test(href))mod=href.split("/").pop().replace(/\.html?$/i,"");else if(href.startsWith("#")&&href.length>1)mod=href.slice(1);else if(["#","./","/","index.html"].includes(href))return;else mod=(a.textContent||"").trim().toLowerCase().replace(/[^a-z0-9]+/g,"_").replace(/^_|_$/g,"");
+    if(!mod||["dashboard","index","home"].includes(mod))return;e.preventDefault();history.pushState(null,"","#/"+encodeURIComponent(mod));render(mod);
+  });
+  window.addEventListener("popstate",()=>{const r=decodeURIComponent(location.hash.replace(/^#\/?/,""));if(r)render(r);else{view().hidden=true;main().hidden=false;}});
+  const route=decodeURIComponent(location.hash.replace(/^#\/?/,""));if(route)render(route);
+}
 })();
