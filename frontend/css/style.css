@@ -1,17 +1,12 @@
-Certainly! Below is a complete and modern CSS file tailored for a hospital management system. This CSS includes responsive design, a clean modern UI, navbar, hero section, cards, forms, tables, and footer.
+Certainly! Below is a complete and modern CSS for a responsive hospital management system. This CSS includes a Navbar, Hero section, Cards, Forms, Tables, and Footer.
 
 
 /* General Styles */
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
-
 body {
     font-family: 'Arial', sans-serif;
+    margin: 0;
+    padding: 0;
     background-color: #f4f4f4;
-    color: #333;
 }
 
 .container {
@@ -22,79 +17,89 @@ body {
 
 /* Navbar */
 .navbar {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
     background-color: #333;
-    padding: 15px 20px;
-    position: sticky;
-    top: 0;
-    z-index: 100;
+    overflow: hidden;
 }
 
-.navbar-brand {
+.navbar a {
+    float: left;
+    display: block;
     color: white;
+    text-align: center;
+    padding: 14px 16px;
     text-decoration: none;
-    font-size: 24px;
-    font-weight: bold;
 }
 
-.nav-item {
-    display: inline-block;
-    margin-left: 20px;
+.navbar a:hover {
+    background-color: #ddd;
+    color: black;
 }
 
-.nav-link {
+.navbar a.active {
+    background-color: #4CAF50;
     color: white;
-    text-decoration: none;
-    font-size: 16px;
-    transition: color 0.3s ease;
-}
-
-.nav-link:hover {
-    color: #ffcc00;
 }
 
 /* Hero Section */
 .hero {
-    background-image: url('path/to/hero-image.jpg');
+    background-image: url('hero-image.jpg');
     background-size: cover;
     background-position: center;
-    height: 600px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    height: 500px;
     color: white;
     text-align: center;
+    padding-top: 200px;
 }
 
-.hero-title {
-    font-size: 48px;
+.hero h1 {
+    font-size: 3em;
     margin-bottom: 20px;
 }
 
-.hero-subtitle {
-    font-size: 24px;
-    margin-bottom: 40px;
-}
-
-.hero-btn {
-    padding: 10px 20px;
-    font-size: 16px;
-    color: black;
-    background-color: #ffcc00;
-    border: none;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-}
-
-.hero-btn:hover {
-    background-color: #e6b800;
+.hero p {
+    font-size: 1.2em;
+    line-height: 1.5;
 }
 
 /* Cards */
 .card {
-    background-color:
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
+    overflow: hidden;
+}
+
+.card-header {
+    background-color: #333;
+    color: white;
+    padding: 10px;
+    text-align: center;
+}
+
+.card-body {
+    padding: 20px;
+}
+
+.card-footer {
+    background-color: #f4f4f4;
+    padding: 10px;
+    text-align: center;
+}
+
+/* Forms */
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+.form-group input,
+.form-group select {
 
 /* Application styling baseline */
 :root {

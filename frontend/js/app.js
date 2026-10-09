@@ -1,75 +1,92 @@
-Certainly! Below is a simplified version of a JavaScript file for a hospital management system. This example includes form validation, button events, dynamic content updates, and loading indicators.
+Certainly! Below is a simplified version of JavaScript functionality for a basic hospital management system. This example includes form validation, button events, dynamic content updates, and loading indicators.
 
 
-// Sample JavaScript for Hospital Management System
-
-// Function to handle form submission
-function handleFormSubmit(event) {
-    event.preventDefault(); // Prevent the default form submission
-
-    const form = document.getElementById('patient-form');
+document.addEventListener('DOMContentLoaded', function() {
+    // Form Validation
+    const form = document.getElementById('patientForm');
     const nameInput = document.getElementById('name');
     const ageInput = document.getElementById('age');
     const emailInput = document.getElementById('email');
-    const symptomsInput = document.getElementById('symptoms');
 
-    // Form validation
-    if (!nameInput.value || !ageInput.value || !emailInput.value || !symptomsInput.value) {
-        alert('All fields are required!');
-        return;
+    form.addEventListener('submit', function(event) {
+        event.preventDefault();
+        validateForm();
+    });
+
+    function validateForm() {
+        let isValid = true;
+
+        if (!nameInput.value.trim()) {
+            nameInput.classList.add('invalid');
+            isValid = false;
+        } else {
+            nameInput.classList.remove('invalid');
+        }
+
+        if (!ageInput.value.trim()) {
+            ageInput.classList.add('invalid');
+            isValid = false;
+        } else {
+            ageInput.classList.remove('invalid');
+        }
+
+        if (!emailInput.value.trim()) {
+            emailInput.classList.add('invalid');
+            isValid = false;
+        } else {
+            emailInput.classList.remove('invalid');
+        }
+
+        if (isValid) {
+            addPatient();
+        }
     }
 
-    // Validate age (should be a number)
-    if (isNaN(ageInput.value)) {
-        alert('Age must be a number!');
-        return;
-    }
+    // Button Events
+    const addButton = document.getElementById('addButton');
+    const patientList = document.getElementById('patientList');
 
-    // Validate email format
-    const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!emailPattern.test(emailInput.value)) {
-        alert('Invalid email format!');
-        return;
-    }
+    addButton.addEventListener('click', function() {
+        if (form.checkValidity()) {
+            addPatient();
+        } else {
+            validateForm();
+        }
+    });
 
-    // Simulate server response with a loading indicator
-    showLoadingIndicator();
+    function addPatient() {
+        const name = nameInput.value.trim();
+        const age = ageInput.value.trim();
+        const email = emailInput.value.trim();
 
-    setTimeout(() => {
-        hideLoadingIndicator();
-        alert('Patient record submitted successfully!');
-        // Reset form
-        form.reset();
-    }, 2000); // Simulating a delay for server response
-}
+        const patientItem = document.createElement('div');
+        patientItem.classList.add('patient-item');
 
-// Function to show loading indicator
-function showLoadingIndicator() {
-    const loadingIndicator = document.getElementById('loading-indicator');
-    loadingIndicator.style.display = 'block';
-}
+        const patientName = document.createElement('p');
+        patientName.textContent = `Name: ${name}`;
+        patientItem.appendChild(patientName);
 
-// Function to hide loading indicator
-function hideLoadingIndicator() {
-    const loadingIndicator = document.getElementById('loading-indicator');
-    loadingIndicator.style.display = 'none';
-}
+        const patientAge = document.createElement('p');
+        patientAge.textContent = `Age: ${age}`;
+        patientItem.appendChild(patientAge);
 
-// Event listener for form submit
-document.getElementById('patient-form').addEventListener('submit', handleFormSubmit);
+        const patientEmail = document.createElement('p');
+        patientEmail.textContent = `Email: ${email}`;
+        patientEmail.classList.add('email');
+        patientItem.appendChild(patientEmail);
 
-// Example dynamic content update
-function updateDynamicContent() {
-    const patientList = document.getElementById('patient-list');
-    const patients = [
-        { name: 'John Doe', age: 30, email: 'johndoe@example.com' },
-        { name: 'Jane Smith', age: 45, email: 'janesmith@example.com' }
-    ];
+        patientList.appendChild(patientItem);
 
-    let htmlContent = '';
-    patients.forEach(patient => {
-        htmlContent += `
-            <div class="
+        // Clear form fields
+        nameInput.value = '';
+        ageInput.value = '';
+        emailInput.value = '';
+
+        // Loading Indicator
+        showLoadingIndicator();
+        setTimeout(function() {
+            hideLoadingIndicator();
+        },
 
 
 (() => {

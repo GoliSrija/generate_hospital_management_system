@@ -10,38 +10,45 @@
 <body>
     <div id="app">
         <header>
-            <div class="logo">HMS</div>
+            <div class="logo">Hospital Management System</div>
             <nav>
-                <ul>
-                    <li><a href="#/dashboard" class="active">Dashboard</a></li>
-                    <li><a href="#/patients">Patients</a></li>
-                    <li><a href="#/appointments">Appointments</a></li>
-                    <li><a href="#/medical-records">Medical Records</a></li>
-                    <li><a href="#/staff">Staff</a></li>
-                    <li><a href="#/settings">Settings</a></li>
+                <ul class="nav-links">
+                    <li><a href="#/dashboard" class="nav-link active">Dashboard</a></li>
+                    <li><a href="#/patients" class="nav-link">Patients</a></li>
+                    <li><a href="#/appointments" class="nav-link">Appointments</a></li>
+                    <li><a href="#/records" class="nav-link">Medical Records</a></li>
+                    <li><a href="#/settings" class="nav-link">Settings</a></li>
                 </ul>
             </nav>
         </header>
         <main>
-            <div class="sidebar">
-                <ul>
-                    <li><a href="#/dashboard" class="active">Dashboard</a></li>
-                    <li><a href="#/patients">Patients</a></li>
-                    <li><a href="#/appointments">Appointments</a></li>
-                    <li><a href="#/medical-records">Medical Records</a></li>
-                    <li><a href="#/staff">Staff</a></li>
-                    <li><a href="#/settings">Settings</a></li>
-                </ul>
+            <div id="sidebar">
+                <div class="sidebar-content">
+                    <button class="toggle-sidebar">☰</button>
+                    <ul class="sidebar-nav">
+                        <li><a href="#/dashboard" class="sidebar-link active">Dashboard</a></li>
+                        <li><a href="#/patients" class="sidebar-link">Patients</a></li>
+                        <li><a href="#/appointments" class="sidebar-link">Appointments</a></li>
+                        <li><a href="#/records" class="sidebar-link">Medical Records</a></li>
+                        <li><a href="#/settings" class="sidebar-link">Settings</a></li>
+                    </ul>
+                </div>
             </div>
-            <div class="content">
-                <div id="page-content"></div>
-            </div>
-        </main>
-        <footer>
-            <p>&copy; 2023 Hospital Management System</p>
-        </footer>
-    </div>
-    
+            <div id="content">
+                <div class="content-header">
+                    <h1>Dashboard</h1>
+                    <button class="btn btn-primary">Logout</button>
+                </div>
+                <div id="dashboard">
+                    <div class="card">
+                        <h3>Patient Registrations Today</h3>
+                        <p>12</p>
+                    </div>
+                    <div class="card">
+                        <h3>Total Patients</h3>
+                        <p>500</p>
+                    </div>
+                    <div
 <script src="js/app.js" defer></script>
 </body>
 </html>
