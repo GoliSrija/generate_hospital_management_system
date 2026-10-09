@@ -1,90 +1,81 @@
-Certainly! Below is a simplified version of JavaScript functionality for a hospital management system. This example includes form validation, button events, dynamic content updates, and loading indicators.
+Certainly! Below is a simplified version of JavaScript code for a basic hospital management system. This example includes form validation, button events, dynamic content updates, and loading indicators using `fetch` for asynchronous data handling.
 
 
-document.addEventListener('DOMContentLoaded', function() {
-    // Form Validation
-    const patientForm = document.getElementById('patientForm');
-    const nameInput = document.getElementById('name');
-    const ageInput = document.getElementById('age');
-    const submitButton = document.getElementById('submitButton');
+// Form Validation
+const form = document.getElementById('patientForm');
+const nameInput = document.getElementById('name');
+const ageInput = document.getElementById('age');
+const genderSelect = document.getElementById('gender');
+const symptomsTextarea = document.getElementById('symptoms');
 
-    patientForm.addEventListener('submit', function(event) {
-        event.preventDefault();
-        
-        if (!validateForm()) {
-            return;
-        }
+form.addEventListener('submit', (event) => {
+    event.preventDefault();
+    
+    // Basic form validation
+    const name = nameInput.value.trim();
+    const age = ageInput.value.trim();
+    const gender = genderSelect.value;
+    const symptoms = symptomsTextarea.value.trim();
 
-        showLoadingIndicator(true);
-        submitPatientData();
+    if (!name || !age || !gender || !symptoms) {
+        alert('All fields are required.');
+        return;
+    }
+
+    if (isNaN(age) || age < 0) {
+        alert('Age must be a positive number.');
+        return;
+    }
+
+    // Proceed with the form submission
+    submitPatientData(name, age, gender, symptoms);
+});
+
+// Function to handle patient data submission
+function submitPatientData(name, age, gender, symptoms) {
+    const loadingIndicator = document.getElementById('loadingIndicator');
+    loadingIndicator.style.display = 'block';
+
+    fetch('/submit-patient-data', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            name: name,
+            age: age,
+            gender: gender,
+            symptoms: symptoms
+        })
+    })
+    .then(response => response.json())
+    .then(data => {
+        console.log('Success:', data);
+        displayMessage('Patient data submitted successfully.');
+    })
+    .catch((error) => {
+        console.error('Error:', error);
+        displayMessage('Failed to submit patient data. Please try again.');
+    })
+    .finally(() => {
+        loadingIndicator.style.display = 'none';
     });
+}
 
-    // Validate Form
-    function validateForm() {
-        let isValid = true;
+// Display message in the UI
+function displayMessage(message) {
+    const messageDiv = document.getElementById('message');
+    messageDiv.textContent = message;
+}
 
-        if (!nameInput.value.trim()) {
-            alert('Name is required.');
-            isValid = false;
-        } else if (!ageInput.value.trim()) {
-            alert('Age is required.');
-            isValid = false;
-        } else if (isNaN(ageInput.value)) {
-            alert('Age must be a number.');
-            isValid = false;
-        }
+// Dynamic Content - Example: Displaying patient list
+function fetchPatientList() {
+    const loadingIndicator = document.getElementById('loadingIndicator');
+    loadingIndicator.style.display = 'block';
 
-        return isValid;
-    }
-
-    // Submit Patient Data
-    function submitPatientData() {
-        const patientData = {
-            name: nameInput.value,
-            age: ageInput.value
-        };
-
-        fetch('/api/patient', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(patientData)
-        })
-        .then(response => response.json())
-        .then(data => {
-            console.log('Success:', data);
-            updatePatientList(data);
-            resetForm();
-            showLoadingIndicator(false);
-        })
-        .catch((error) => {
-            console.error('Error:', error);
-            showLoadingIndicator(false);
-        });
-    }
-
-    // Update Patient List
-    function updatePatientList(patientData) {
-        const patientList = document.getElementById('patientList');
-        const listItem = document.createElement('li');
-        listItem.textContent = `${patientData.name} - ${patientData.age}`;
-        patientList.appendChild(listItem);
-    }
-
-    // Reset Form
-    function resetForm() {
-        nameInput.value = '';
-        ageInput.value = '';
-    }
-
-    // Show Loading Indicator
-    function showLoadingIndicator(show) {
-        const loadingIndicator = document.getElementById('loadingIndicator');
-        if (show) {
-            loadingIndicator.style.display = 'block';
-        } else {
-            loadingIndicator.style.display = '
+    fetch('/get-patient-list')
+    .then(response => response.json())
+    .then
 
 
 (() => {

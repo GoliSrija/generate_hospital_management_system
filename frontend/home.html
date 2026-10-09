@@ -10,36 +10,26 @@
 <body>
     <div id="app">
         <nav class="navbar">
-            <div class="logo">Hospital MS</div>
+            <div class="logo">HMS</div>
             <ul class="nav-links">
                 <li><a href="#/dashboard" class="active">Dashboard</a></li>
                 <li><a href="#/patients">Patients</a></li>
                 <li><a href="#/appointments">Appointments</a></li>
-                <li><a href="#/medical-records">Medical Records</a></li>
-                <li><a href="#/staff">Staff</a></li>
-                <li><a href="#/reports">Reports</a></li>
-                <li><a href="#" onclick="logout()">Logout</a></li>
+                <li><a href="#/records">Medical Records</a></li>
+                <li><a href="#/logout">Logout</a></li>
             </ul>
         </nav>
-        <div class="container">
-            <div id="sidebar">
-                <div class="user-profile">
-                    <img src="profile.png" alt="Profile">
-                    <span>User Name</span>
-                </div>
+        <div class="main-content">
+            <div class="sidebar">
                 <ul>
                     <li><a href="#/dashboard">Dashboard</a></li>
                     <li><a href="#/patients">Patients</a></li>
                     <li><a href="#/appointments">Appointments</a></li>
-                    <li><a href="#/medical-records">Medical Records</a></li>
-                    <li><a href="#/staff">Staff</a></li>
-                    <li><a href="#/reports">Reports</a></li>
-                    <li><a href="#" onclick="logout()">Logout</a></li>
+                    <li><a href="#/records">Medical Records</a></li>
                 </ul>
             </div>
-            <div id="main-content">
-                <h1>Welcome to Hospital Management System</h1>
-                <div id="content"></div>
+            <div class="content-area">
+                <router-view></router-view>
             </div>
         </div>
     </div>
@@ -47,3 +37,39 @@
 <script src="js/app.js" defer></script>
 </body>
 </html>
+
+<!-- style.css -->
+body {
+    font-family: 'Roboto', sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f8f9fa;
+}
+
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #007bff;
+    color: #fff;
+    padding: 10px 20px;
+}
+
+.navbar .logo {
+    font-size: 24px;
+    font-weight: bold;
+}
+
+.navbar ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+}
+
+.navbar ul li {
+    display: inline-block;
+    margin-right: 15px;
+}
+
+.navbar ul li a {
+    color: white
