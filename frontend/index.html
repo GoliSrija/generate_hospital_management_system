@@ -4,36 +4,44 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Hospital Management System</title>
-    <link rel="stylesheet" href="style.css">
+    
+<link rel="stylesheet" href="css/style.css">
 </head>
 <body>
     <div id="app">
-        <nav class="navbar">
-            <div class="logo">Hospital Management System</div>
-            <ul class="nav-links">
-                <li><a href="#/dashboard" class="nav-item">Dashboard</a></li>
-                <li><a href="#/patients" class="nav-item">Patient Management</a></li>
-                <li><a href="#/records" class="nav-item">Medical Records</a></li>
-                <li><a href="#/reporting" class="nav-item">Reporting & Analytics</a></li>
-                <li><a href="#/settings" class="nav-item">Settings</a></li>
-                <li><a href="#/logout" class="nav-item">Logout</a></li>
-            </ul>
-        </nav>
-        <div class="container">
-            <div id="sidebar">
-                <ul class="sidebar-links">
-                    <li><a href="#/dashboard" class="sidebar-item">Dashboard</a></li>
-                    <li><a href="#/patients" class="sidebar-item">Patient Management</a></li>
-                    <li><a href="#/records" class="sidebar-item">Medical Records</a></li>
-                    <li><a href="#/reporting" class="sidebar-item">Reporting & Analytics</a></li>
-                    <li><a href="#/settings" class="sidebar-item">Settings</a></li>
+        <header>
+            <div class="logo">HMS</div>
+            <nav>
+                <ul>
+                    <li><a href="#/dashboard" class="active">Dashboard</a></li>
+                    <li><a href="#/patients">Patients</a></li>
+                    <li><a href="#/appointments">Appointments</a></li>
+                    <li><a href="#/medical-records">Medical Records</a></li>
+                    <li><a href="#/staff">Staff</a></li>
+                    <li><a href="#/settings">Settings</a></li>
+                </ul>
+            </nav>
+        </header>
+        <main>
+            <div class="sidebar">
+                <ul>
+                    <li><a href="#/dashboard" class="active">Dashboard</a></li>
+                    <li><a href="#/patients">Patients</a></li>
+                    <li><a href="#/appointments">Appointments</a></li>
+                    <li><a href="#/medical-records">Medical Records</a></li>
+                    <li><a href="#/staff">Staff</a></li>
+                    <li><a href="#/settings">Settings</a></li>
                 </ul>
             </div>
-            <main>
-                <div id="content"></div>
-            </main>
-        </div>
+            <div class="content">
+                <div id="page-content"></div>
+            </div>
+        </main>
+        <footer>
+            <p>&copy; 2023 Hospital Management System</p>
+        </footer>
     </div>
-    <script src="app.js"></script>
+    
+<script src="js/app.js" defer></script>
 </body>
 </html>

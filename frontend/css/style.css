@@ -1,12 +1,17 @@
-Certainly! Below is a complete and responsive CSS stylesheet for a modern hospital management system. This CSS includes a Navbar, Hero section, Cards, Forms, Tables, and a Footer.
+Certainly! Below is a complete and modern CSS file tailored for a hospital management system. This CSS includes responsive design, a clean modern UI, navbar, hero section, cards, forms, tables, and footer.
 
 
 /* General Styles */
-body {
-    font-family: 'Arial', sans-serif;
+* {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+}
+
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: #f4f4f4;
+    color: #333;
 }
 
 .container {
@@ -17,15 +22,19 @@ body {
 
 /* Navbar */
 .navbar {
-    background-color: #333;
-    color: white;
-    padding: 15px 0;
     display: flex;
     justify-content: space-between;
     align-items: center;
+    background-color: #333;
+    padding: 15px 20px;
+    position: sticky;
+    top: 0;
+    z-index: 100;
 }
 
 .navbar-brand {
+    color: white;
+    text-decoration: none;
     font-size: 24px;
     font-weight: bold;
 }
@@ -38,16 +47,17 @@ body {
 .nav-link {
     color: white;
     text-decoration: none;
-    font-size: 18px;
+    font-size: 16px;
+    transition: color 0.3s ease;
 }
 
 .nav-link:hover {
-    text-decoration: underline;
+    color: #ffcc00;
 }
 
 /* Hero Section */
 .hero {
-    background-image: url('hero-bg.jpg'); /* Replace with your image URL */
+    background-image: url('path/to/hero-image.jpg');
     background-size: cover;
     background-position: center;
     height: 600px;
@@ -60,7 +70,6 @@ body {
 
 .hero-title {
     font-size: 48px;
-    font-weight: bold;
     margin-bottom: 20px;
 }
 
@@ -69,28 +78,146 @@ body {
     margin-bottom: 40px;
 }
 
-.hero-button {
-    background-color: #333;
-    color: white;
+.hero-btn {
     padding: 10px 20px;
+    font-size: 16px;
+    color: black;
+    background-color: #ffcc00;
     border: none;
     cursor: pointer;
-    font-size: 18px;
+    transition: background-color 0.3s ease;
 }
 
-.hero-button:hover {
-    background-color: #555;
+.hero-btn:hover {
+    background-color: #e6b800;
 }
 
 /* Cards */
 .card {
-    background-color: #f9f9f9;
-    border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    overflow: hidden;
-    margin-bottom: 20px;
-}
+    background-color:
 
-.card-header {
+/* Application styling baseline */
+:root {
+    color-scheme: light;
+    --app-primary: #3157d5;
+    --app-primary-dark: #2443ad;
+    --app-bg: #f4f7fc;
+    --app-surface: #ffffff;
+    --app-text: #1c2740;
+    --app-muted: #68758d;
+    --app-border: #e1e7f0;
+    --app-radius: 14px;
+}
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+    margin: 0;
+    color: var(--app-text);
+    background: var(--app-bg);
+    font-family: Inter, "Segoe UI", Arial, sans-serif;
+    line-height: 1.55;
+}
+header, nav, footer { max-width: 100%; }
+header, body > nav {
+    background: var(--app-surface);
+}
+nav ul {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    align-items: center;
+    list-style: none;
+    padding: 12px 22px;
+    margin: 0;
+}
+nav a, a {
+    color: var(--app-primary);
+    text-decoration: none;
+}
+nav a:hover, a:hover { text-decoration: underline; }
+main, section, .container, .dashboard, .content {
+    max-width: 1240px;
+    margin-left: auto;
+    margin-right: auto;
+}
+main, section { padding: 24px; }
+h1, h2, h3 { line-height: 1.25; }
+button, .button, input[type="submit"] {
+    border: 0;
+    border-radius: 9px;
+    padding: 10px 16px;
+    background: var(--app-primary);
+    color: white;
+    font: inherit;
+    cursor: pointer;
+}
+button:hover, .button:hover, input[type="submit"]:hover {
+    background: var(--app-primary-dark);
+}
+input, select, textarea {
+    max-width: 100%;
+    padding: 11px 12px;
+    border: 1px solid var(--app-border);
+    border-radius: 8px;
+    font: inherit;
+    background: white;
+}
+input:focus, select:focus, textarea:focus {
+    outline: 2px solid #a9baff;
+    outline-offset: 1px;
+}
+form { display: grid; gap: 12px; }
+table {
+    width: 100%;
+    border-collapse: collapse;
+    background: white;
+    border-radius: 10px;
+    overflow: hidden;
+}
+th, td {
+    padding: 12px;
+    border-bottom: 1px solid var(--app-border);
+    text-align: left;
+}
+th { background: #edf2fc; }
+article, .card, .feature-card, .stat-card, .feature {
+    background: white;
+    border: 1px solid var(--app-border);
+    border-radius: var(--app-radius);
     padding: 20px;
-    background-color: #33
+    box-shadow: 0 5px 20px rgba(25, 45, 85, .045);
+}
+#dynamic-page-view {
+    max-width: 1240px;
+    margin: 28px auto;
+    padding: 24px;
+    background: white;
+    border: 1px solid var(--app-border);
+    border-radius: var(--app-radius);
+    box-shadow: 0 8px 30px rgba(25,45,85,.06);
+}
+#dynamic-page-view .module-toolbar {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+    margin: 18px 0;
+}
+#dynamic-page-view .module-toolbar input { flex: 1; min-width: 180px; }
+#dynamic-page-view .notice {
+    color: var(--app-muted);
+    padding: 12px 0;
+}
+#dynamic-page-view .module-form {
+    margin: 18px 0;
+    padding: 18px;
+    border: 1px solid var(--app-border);
+    border-radius: 10px;
+}
+@media (max-width: 700px) {
+    main, section { padding: 16px; }
+    #dynamic-page-view { margin: 12px; padding: 16px; }
+    table { display: block; overflow-x: auto; }
+    nav ul { padding: 10px; }
+}
