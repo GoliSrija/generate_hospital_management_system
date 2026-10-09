@@ -12,26 +12,34 @@
         <nav class="navbar">
             <div class="logo">Hospital MS</div>
             <ul class="nav-links">
-                <li><a href="#/dashboard" class="nav-link">Dashboard</a></li>
-                <li><a href="#/patients" class="nav-link">Patients</a></li>
-                <li><a href="#/appointments" class="nav-link">Appointments</a></li>
-                <li><a href="#/records" class="nav-link">Medical Records</a></li>
-                <li><a href="#/billing" class="nav-link">Billing</a></li>
-                <li><a href="#/logout" class="nav-link">Logout</a></li>
+                <li><a href="#/dashboard" class="active">Dashboard</a></li>
+                <li><a href="#/patients">Patients</a></li>
+                <li><a href="#/appointments">Appointments</a></li>
+                <li><a href="#/medical-records">Medical Records</a></li>
+                <li><a href="#/staff">Staff</a></li>
+                <li><a href="#/reports">Reports</a></li>
+                <li><a href="#" onclick="logout()">Logout</a></li>
             </ul>
         </nav>
-        <div class="main-content">
-            <div class="sidebar">
+        <div class="container">
+            <div id="sidebar">
+                <div class="user-profile">
+                    <img src="profile.png" alt="Profile">
+                    <span>User Name</span>
+                </div>
                 <ul>
                     <li><a href="#/dashboard">Dashboard</a></li>
                     <li><a href="#/patients">Patients</a></li>
                     <li><a href="#/appointments">Appointments</a></li>
-                    <li><a href="#/records">Medical Records</a></li>
-                    <li><a href="#/billing">Billing</a></li>
+                    <li><a href="#/medical-records">Medical Records</a></li>
+                    <li><a href="#/staff">Staff</a></li>
+                    <li><a href="#/reports">Reports</a></li>
+                    <li><a href="#" onclick="logout()">Logout</a></li>
                 </ul>
             </div>
-            <div class="content">
-                <router-view></router-view>
+            <div id="main-content">
+                <h1>Welcome to Hospital Management System</h1>
+                <div id="content"></div>
             </div>
         </div>
     </div>

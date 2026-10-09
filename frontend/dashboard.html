@@ -1,16 +1,90 @@
 <!DOCTYPE html>
-<html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Dashboard | Generate Hospital Management System</title><link rel="stylesheet" href="css/style.css"></head>
-<body><header><h1>Generate Hospital Management System</h1><nav aria-label="Main navigation"><ul>
-<li><a href="dashboard.html">Dashboard</a></li><li><a href="#/patients">Patients</a></li>
-<li><a href="#/appointments">Appointments</a></li><li><a href="#/medical-records">Medical Records</a></li>
-<li><a href="#/settings">Settings</a></li></ul></nav></header>
-<main><div style="display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap">
-<div><h2>Dashboard</h2><p>Welcome to your application workspace.</p></div>
-<button type="button" data-logout>Logout</button></div>
-<section><h2>Quick access</h2><p>Select a module to view, search, add, and delete demo records.</p>
-<div class="module-toolbar"><a class="button" href="#/patients">Patients</a>
-<a class="button" href="#/appointments">Appointments</a>
-<a class="button" href="#/medical-records">Medical Records</a>
-<a class="button" href="#/settings">Settings</a></div></section></main>
-<script src="js/app.js" defer></script></body></html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Dashboard | Generate Hospital Management System</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body class="app-dashboard">
+  <header class="dashboard-header">
+    <div><h1>Generate Hospital Management System</h1><p class="dashboard-intro">Your project workspace</p></div>
+    <button type="button" data-logout>Log out</button>
+  </header>
+  <main>
+    <div class="dashboard-header">
+      <div><h2>Dashboard</h2><p class="dashboard-intro">Welcome back, <strong id="dashboard-user">user</strong>.</p></div>
+      <input id="module-search" type="search" placeholder="Search modules..." aria-label="Search modules" style="max-width:300px">
+    </div>
+    <section class="summary-grid">
+      <div class="summary-card"><span>Available modules</span><strong>7</strong></div>
+      <div class="summary-card"><span>Records in this browser</span><strong id="record-count">0</strong></div>
+      <div class="summary-card"><span>Workspace status</span><strong>Ready</strong></div>
+    </section>
+    <section>
+      <h2>Application modules</h2>
+      <p class="dashboard-intro">Choose a module to search, add, and delete demo records.</p>
+      <div class="module-grid" id="dashboard-modules"><a class="module-card" href="#/patients">
+              <span class="module-icon">01</span>
+              <span><strong>Patients</strong><small>Register and manage patient records</small></span>
+              <span class="module-arrow">→</span>
+            </a>
+<a class="module-card" href="#/doctors">
+              <span class="module-icon">02</span>
+              <span><strong>Doctors</strong><small>Manage doctor details and availability</small></span>
+              <span class="module-arrow">→</span>
+            </a>
+<a class="module-card" href="#/appointments">
+              <span class="module-icon">03</span>
+              <span><strong>Appointments</strong><small>Schedule and track appointments</small></span>
+              <span class="module-arrow">→</span>
+            </a>
+<a class="module-card" href="#/medical-records">
+              <span class="module-icon">04</span>
+              <span><strong>Medical Records</strong><small>Maintain medical record entries</small></span>
+              <span class="module-arrow">→</span>
+            </a>
+<a class="module-card" href="#/staff">
+              <span class="module-icon">05</span>
+              <span><strong>Staff</strong><small>Manage hospital staff</small></span>
+              <span class="module-arrow">→</span>
+            </a>
+<a class="module-card" href="#/departments">
+              <span class="module-icon">06</span>
+              <span><strong>Departments</strong><small>Organize hospital departments</small></span>
+              <span class="module-arrow">→</span>
+            </a>
+<a class="module-card" href="#/reports">
+              <span class="module-icon">07</span>
+              <span><strong>Reports</strong><small>Review hospital activity</small></span>
+              <span class="module-arrow">→</span>
+            </a></div>
+    </section>
+    <p class="notice">Demo mode: records are saved in this browser only. Connect the backend and database for persistent multi-user data.</p>
+  </main>
+  <script src="js/app.js" defer></script>
+  <script>
+  document.addEventListener("DOMContentLoaded", function () {
+    let user = null;
+    try { user = JSON.parse(localStorage.getItem("demoUser") || "null"); } catch (_) {}
+    if (user && user.username) document.getElementById("dashboard-user").textContent = user.username;
+
+    const search = document.getElementById("module-search");
+    search.addEventListener("input", function () {
+      document.querySelectorAll("#dashboard-modules .module-card").forEach(card => {
+        card.hidden = !card.textContent.toLowerCase().includes(search.value.toLowerCase());
+      });
+    });
+
+    let total = 0;
+    for (let i = 0; i < localStorage.length; i++) {
+      const key = localStorage.key(i);
+      if (key && key.startsWith("ai_generated_demo_")) {
+        try { total += JSON.parse(localStorage.getItem(key) || "[]").length; } catch (_) {}
+      }
+    }
+    document.getElementById("record-count").textContent = total;
+  });
+  </script>
+</body>
+</html>
